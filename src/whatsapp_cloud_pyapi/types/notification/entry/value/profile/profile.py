@@ -2,5 +2,5 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Contact:
+class Profile:
     pass

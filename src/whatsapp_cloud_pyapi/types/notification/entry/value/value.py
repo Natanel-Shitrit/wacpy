@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 from typing import List
 
-from .contact import Contact
 from .error import Error
 from .message import Message
 from .metadata import Metadata
+from .profile import Profile
 from .status import Status
 
 
 @dataclass
 class Value:
 
-    contacts: List[Contact]
+    contacts: List[Profile]
     """
     The information for the customer who sent a message to the business.
     """
