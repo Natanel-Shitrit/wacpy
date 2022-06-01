@@ -3,4 +3,13 @@ from dataclasses import dataclass
 
 @dataclass
 class Error:
-    pass
+    
+    code: int
+    """
+    Error code.
+    """
+
+    title: str
+    """
+    Error title.
+    """
