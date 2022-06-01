@@ -3,4 +3,13 @@ from dataclasses import dataclass
 
 @dataclass
 class Audio:
-    pass
+    
+    id: str
+    """
+    ID for the audio file.
+    """
+
+    mime_type: str
+    """
+    Mime type of the audio file.
+    """
