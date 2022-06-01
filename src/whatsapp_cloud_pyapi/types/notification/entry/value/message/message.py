@@ -59,7 +59,7 @@ class Message:
     The message that a business received from a customer is not a supported type.
     """
 
-    timestamp: int
+    timestamp: str
     """
     The time when the customer sent the message to the business.
     """
