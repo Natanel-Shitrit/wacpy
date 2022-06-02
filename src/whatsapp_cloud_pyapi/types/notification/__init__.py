@@ -1,4 +1,2 @@
-# from  import 
-
-class Notification:
-    pass
+from .notification import Notification
+from .entry import *
