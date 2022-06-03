@@ -6,7 +6,7 @@ from .profile import Profile
 
 @dataclass_json
 @dataclass
-class Profile:
+class Contact:
     
     profile: Profile
     """
