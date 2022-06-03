@@ -1,9 +1,11 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import Optional
 
 from .reply import Reply
 
 
+@dataclass_json
 @dataclass
 class Interactive:
     

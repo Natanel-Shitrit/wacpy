@@ -1,9 +1,11 @@
 from .row import Row
 
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import Optional, List
 
 
+@dataclass_json
 @dataclass
 class Section:
     

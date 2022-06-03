@@ -1,8 +1,10 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from optparse import Option
 from typing import Optional
 
 
+@dataclass_json
 @dataclass
 class System:
     

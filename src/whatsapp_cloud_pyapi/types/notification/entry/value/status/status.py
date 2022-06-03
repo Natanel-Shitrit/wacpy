@@ -1,8 +1,10 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 
 from .billing import Billing
 from .conversation import Conversation
 
+@dataclass_json
 @dataclass
 class Status:
 

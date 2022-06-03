@@ -1,10 +1,12 @@
 from .button import Button
 from ..section import Section
 
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import List, Optional
 
 
+@dataclass_json
 @dataclass
 class Action:
     

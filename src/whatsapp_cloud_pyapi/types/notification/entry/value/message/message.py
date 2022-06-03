@@ -1,3 +1,4 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import List, Optional
 
@@ -16,6 +17,7 @@ from .system import System
 from .text import Text
 
 
+@dataclass_json
 @dataclass
 class Message:
     

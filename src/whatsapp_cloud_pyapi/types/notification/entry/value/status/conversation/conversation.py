@@ -1,8 +1,10 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 
 from .origin import Origin
 
 
+@dataclass_json
 @dataclass
 class Conversation:
     """

@@ -1,9 +1,11 @@
 from .button import Button
 
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import Optional, List
 
 
+@dataclass_json
 @dataclass
 class Component:
     

@@ -1,3 +1,4 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import List
 
@@ -8,6 +9,7 @@ from .profile import Profile
 from .status import Status
 
 
+@dataclass_json
 @dataclass
 class Value:
 

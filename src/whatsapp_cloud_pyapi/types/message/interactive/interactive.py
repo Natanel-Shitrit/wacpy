@@ -3,10 +3,12 @@ from .body import Body
 from .footer import Footer
 from .header import Header
 
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import Optional
 
 
+@dataclass_json
 @dataclass
 class Interactive:
     

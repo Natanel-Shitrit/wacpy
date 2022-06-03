@@ -1,7 +1,9 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import List
 from .value import Value
 
+@dataclass_json
 @dataclass
 class Entry:
 
