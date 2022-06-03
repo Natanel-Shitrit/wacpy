@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import dataclass_json, config
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 from .identity import Identity
@@ -21,9 +21,7 @@ from .text import Text
 @dataclass
 class Message:
     
-    # TODO: when adding `dataclasses_json` use this:
-    # from_: str = field(metadata=config(field_name="from"))
-    from_: str
+    from_: str = field(metadata=config(field_name="from"))
     """
     The customer's phone number who sent the message to the business
     """

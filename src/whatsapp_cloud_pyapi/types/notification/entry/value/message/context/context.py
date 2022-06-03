@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import dataclass_json, config
+from dataclasses import dataclass, field
 
 
 @dataclass_json
@@ -16,9 +16,7 @@ class Context:
     Set to true if the message received by the business has been forwarded more than 5 times.
     """
 
-    # TODO: when adding `dataclasses_json` use this:
-    # from_: str = field(metadata=config(field_name="from"))
-    from_: str
+    from_: str = field(metadata=config(field_name="from"))
     """
     The WhatsApp ID for the customer who replied to an inbound message.
     """
