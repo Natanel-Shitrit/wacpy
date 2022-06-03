@@ -1,12 +1,14 @@
 from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 
+from .profile import Profile
+
 
 @dataclass_json
 @dataclass
 class Profile:
     
-    name: str
+    profile: Profile
     """
     The customer's name.
     """

@@ -5,7 +5,7 @@ from typing import List, Optional
 from .error import Error
 from .message import Message
 from .metadata import Metadata
-from .profile import Profile
+from .contact import Contact
 from .status import Status
 
 
@@ -33,7 +33,7 @@ class Value:
     Information about a message received by the business that is subscribed to the webhook.
     """
 
-    contacts: Optional[List[Profile]] = None
+    contacts: Optional[List[Contact]] = None
     """
     The information for the customer who sent a message to the business.
     """
