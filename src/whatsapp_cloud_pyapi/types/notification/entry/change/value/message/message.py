@@ -49,19 +49,19 @@ class Message:
         • video
     """
 
-    identity: Identity
+    timestamp: str
+    """
+    The time when the customer sent the message to the business.
+    """
+
+    identity: Optional[Identity] = None
     """
     A webhook is triggered when a customer's phone number or profile information has been updated.
     """
 
-    errors: List[Error]
+    errors: Optional[List[Error]] = None
     """
     The message that a business received from a customer is not a supported type.
-    """
-
-    timestamp: str
-    """
-    The time when the customer sent the message to the business.
     """
 
     image: Optional[Image] = None
