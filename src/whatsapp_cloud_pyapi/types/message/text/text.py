@@ -41,7 +41,3 @@ class Text:
 
     Default: false.
     """
-
-    def __init__(self, body: str, preview_url: bool = False) -> None:
-        self.body = body
-        self.preview_url = preview_url

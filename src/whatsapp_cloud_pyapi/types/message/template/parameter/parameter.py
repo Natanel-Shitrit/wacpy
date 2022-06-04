@@ -32,6 +32,3 @@ class Parameter:
     For the header component, the character limit is 60 characters.
     For the body component, the character limit is 1024 characters.
     """
-
-    def __init__(self, type, **kwargs) -> None:
-        self.type = type
