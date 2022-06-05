@@ -1,2 +1,2 @@
 from .component import Component
-from .button import *
+from . import button

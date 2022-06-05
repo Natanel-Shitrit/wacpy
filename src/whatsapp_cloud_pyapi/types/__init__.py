@@ -1,2 +1,2 @@
-from .message import *
-from .notification import *
+from . import message
+from . import notification

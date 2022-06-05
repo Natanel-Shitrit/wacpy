@@ -1,8 +1,10 @@
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import List
 
 from .entry import Entry
 
+@dataclass_json
 @dataclass
 class Notification:
     

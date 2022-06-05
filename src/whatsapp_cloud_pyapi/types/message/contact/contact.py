@@ -6,8 +6,10 @@ from .phone import Phone
 from .url import URL
 
 from typing import Optional, List
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 
+@dataclass_json
 @dataclass
 class Contact:
     

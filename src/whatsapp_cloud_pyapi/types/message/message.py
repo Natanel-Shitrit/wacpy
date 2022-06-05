@@ -5,10 +5,12 @@ from .media import Media
 from .template import Template
 from .text import Text
 
+from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from typing import Optional, List
 
 
+@dataclass_json
 @dataclass
 class Message:
     """

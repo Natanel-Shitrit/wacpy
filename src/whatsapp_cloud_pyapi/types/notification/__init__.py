@@ -1,2 +1,2 @@
 from .notification import Notification
-from .entry import *
+from . import entry
