@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -37,17 +37,17 @@ class Referral:
     Media present in the ad or post; image or video
     """
 
-    image_url: Optional[str] = None
+    image_url: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     URL of the image, when media_type is an image
     """
 
-    video_url: Optional[str] = None
+    video_url: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     URL of the video, when media_type is a video
     """
 
-    thumbnail_url: Optional[str] = None
+    thumbnail_url: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     URL for the thumbnail, when media_type is a video
     """

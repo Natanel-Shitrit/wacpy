@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from optparse import Option
 from typing import Optional
 
@@ -31,14 +31,14 @@ class System:
     The WhatsApp ID for the customer prior to the update.
     """
 
-    new_wa_id: Optional[str] = None
+    new_wa_id: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     New WhatsApp ID for the customer when their phone number is updated.
 
     Available on webhook versions V11 and below.
     """
 
-    wa_id: Optional[str] = None
+    wa_id: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     New WhatsApp ID for the customer when their phone number is updated.
     

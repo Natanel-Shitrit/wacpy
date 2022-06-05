@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -18,7 +18,7 @@ class Button:
         • "text"
     """
 
-    payload: Optional[str] = None
+    payload: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required for quick_reply buttons.
 
@@ -27,7 +27,7 @@ class Button:
     See Callback from a Quick Reply Button Click for an example.
     """
 
-    text: Optional[str] = None
+    text: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required for URL buttons.
 

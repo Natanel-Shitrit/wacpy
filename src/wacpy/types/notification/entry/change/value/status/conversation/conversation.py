@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 from .origin import Origin
@@ -33,7 +33,7 @@ class Conversation:
     Indicates who initiated the conversation.
     """
 
-    expiration_timestamp: Optional[str] = None
+    expiration_timestamp: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Date when the conversation expires.
     This field is only present for messages with a `status` set to `sent`.

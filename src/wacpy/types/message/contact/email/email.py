@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -7,14 +7,14 @@ from typing import Optional
 @dataclass
 class Email:
     
-    email: Optional[str] = None
+    email: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     Email address
     """
 
-    type: Optional[str] = None
+    type: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 

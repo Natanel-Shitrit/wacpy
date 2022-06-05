@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -17,35 +17,35 @@ class Name:
     Full name, as it normally appears.
     """
 
-    first_name: Optional[str] = None
+    first_name: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional*.
 
     First name.
     """
 
-    last_name: Optional[str] = None
+    last_name: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional*.
 
     Last name.
     """
 
-    middle_name: Optional[str] = None
+    middle_name: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional*.
 
     Middle name.
     """
 
-    suffix: Optional[str] = None
+    suffix: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional*.
 
     Name suffix.
     """
 
-    prefix: Optional[str] = None
+    prefix: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional*.
 

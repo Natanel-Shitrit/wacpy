@@ -1,7 +1,7 @@
 from .row import Row
 
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional, List
 
 
@@ -18,7 +18,7 @@ class Section:
     Maximum length: 24 characters.
     """
 
-    rows: Optional[List[Row]] = None
+    rows: Optional[List[Row]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required for List Messages.
 

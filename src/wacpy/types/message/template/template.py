@@ -1,8 +1,8 @@
 from .component import Component
 from .language import Language
 
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional, List
 
 
@@ -26,7 +26,7 @@ class Template:
     Only the deterministic language policy works with media template messages.
     """
 
-    components: Optional[List[Component]] = None
+    components: Optional[List[Component]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 

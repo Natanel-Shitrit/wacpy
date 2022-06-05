@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -27,7 +27,7 @@ class Video:
     The hash for the video.
     """
 
-    caption: Optional[str] = None
+    caption: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     The caption for the video, if provided.
     """

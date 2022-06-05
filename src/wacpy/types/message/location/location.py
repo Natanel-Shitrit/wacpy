@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 @dataclass_json
@@ -20,14 +20,14 @@ class Location:
     Latitude of the location.
     """
 
-    name: Optional[str] = None
+    name: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     Name of the location.
     """
 
-    address: Optional[str] = None
+    address: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 

@@ -5,8 +5,8 @@ from .media import Media
 from .template import Template
 from .text import Text
 
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional, List
 
 
@@ -43,7 +43,7 @@ class Message:
     Default: individual
     """
 
-    type: Optional[str] = None
+    type: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
@@ -63,28 +63,28 @@ class Message:
         • text: for text messages.
     """
 
-    audio: Optional[Media] = None
+    audio: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=audio.
 
     A media object containing audio.
     """
     
-    document: Optional[Media] = None
+    document: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=document.
 
     A media object containing a document.
     """
 
-    image: Optional[Media] = None
+    image: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=image.
 
     A media object containing an image.
     """
 
-    sticker: Optional[Media] = None
+    sticker: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=sticker.
 
@@ -96,21 +96,21 @@ class Message:
     The sticker needs to be 512x512 pixels and the file’s size needs to be less than 100 KB.
     """
 
-    video: Optional[Media] = None
+    video: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=video.
 
     A media object containing a video.
     """
 
-    contacts: Optional[List[Contact]] = None
+    contacts: Optional[List[Contact]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=contacts.
 
     A contact object.
     """
 
-    interactive: Optional[Interactive] = None
+    interactive: Optional[Interactive] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=interactive.
 
@@ -120,21 +120,21 @@ class Message:
     The components of each interactive object generally follow a consistent pattern: header, body, footer, and action.
     """
 
-    location: Optional[Location] = None
+    location: Optional[Location] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=location.
 
     A location object.
     """
 
-    template: Optional[Template] = None
+    template: Optional[Template] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=template.
 
     A template object.
     """
 
-    text: Optional[Text] = None
+    text: Optional[Text] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required for text messages.
 

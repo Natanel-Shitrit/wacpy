@@ -1,7 +1,7 @@
 from ...media import Media
 
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -22,7 +22,7 @@ class Header:
         • document: Used for Reply Buttons.
     """
 
-    text: Optional[str] = None
+    text: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required if type is set to text.
 
@@ -32,21 +32,21 @@ class Header:
     Maximum length: 60 characters.
     """
 
-    video: Optional[Media] = None
+    video: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required if type is set to video.
 
     Contains the media object for this video.
     """
 
-    image: Optional[Media] = None
+    image: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required if type is set to image.
 
     Contains the media object for this image.
     """
 
-    document: Optional[Media] = None
+    document: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required if type is set to document.
 

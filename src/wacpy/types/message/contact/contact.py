@@ -6,8 +6,8 @@ from .phone import Phone
 from .url import URL
 
 from typing import Optional, List
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 
 @dataclass_json
 @dataclass
@@ -20,42 +20,42 @@ class Contact:
     Full contact name — see name object.
     """
 
-    adresses: Optional[List[Address]] = None
+    adresses: Optional[List[Address]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     Full contact address(es) — see address object.
     """
 
-    birthday: Optional[str] = None
+    birthday: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     YYYY-MM-DD formatted string.
     """
 
-    emails: Optional[List[Email]] = None
+    emails: Optional[List[Email]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     Contact email address(es) — see email object.
     """
 
-    org: Optional[Organization] = None
+    org: Optional[Organization] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     Contact organization information — see org object.
     """
 
-    phones: Optional[List[Phone]] = None
+    phones: Optional[List[Phone]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
     Contact phone number(s) — see phone object.
     """
 
-    urls: Optional[List[URL]] = None
+    urls: Optional[List[URL]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 

@@ -1,7 +1,7 @@
 from .button import Button
 
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional, List
 
 
@@ -23,7 +23,7 @@ class Component:
     For text-based templates, we only support the type=body.
     """
 
-    sub_type: Optional[str] = None
+    sub_type: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=button. Not used for the other types.
 
@@ -40,7 +40,7 @@ class Component:
             the predefined prefix URL in the template.
     """
 
-    parameters: Optional[List[Button]] = None
+    parameters: Optional[List[Button]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=button.
 
@@ -49,7 +49,7 @@ class Component:
     For components of type=button, see the button parameter object.
     """
 
-    index: Optional[str] = None
+    index: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """    	
     Required when type=button.
 

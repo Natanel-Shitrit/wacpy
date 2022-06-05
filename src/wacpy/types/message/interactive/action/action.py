@@ -1,8 +1,8 @@
 from .button import Button
 from ..section import Section
 
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 
@@ -10,7 +10,7 @@ from typing import List, Optional
 @dataclass
 class Action:
     
-    button: Optional[str] = None
+    button: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required for List Messages.
 
@@ -21,7 +21,7 @@ class Action:
     Maximum length: 20 characters.
     """
 
-    buttons: Optional[List[Button]] = None
+    buttons: Optional[List[Button]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """    	
     Required for Reply Buttons.
 
@@ -46,7 +46,7 @@ class Action:
     You cannot have leading or trailing spaces when setting the ID.
     """
 
-    sections: Optional[List[Section]] = None
+    sections: Optional[List[Section]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required for List Messages.
 

@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 from .error import Error
@@ -23,22 +23,22 @@ class Value:
     The value is whatsapp.
     """
 
-    statuses: Optional[List[Status]] = None
+    statuses: Optional[List[Status]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Status for a message that was sent by the business that is subscribed to the webhook.
     """
 
-    messages: Optional[List[Message]] = None
+    messages: Optional[List[Message]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Information about a message received by the business that is subscribed to the webhook.
     """
 
-    contacts: Optional[List[Contact]] = None
+    contacts: Optional[List[Contact]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     The information for the customer who sent a message to the business.
     """
 
-    errors: Optional[List[Error]] = None
+    errors: Optional[List[Error]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Error information received when a message failed.
     """

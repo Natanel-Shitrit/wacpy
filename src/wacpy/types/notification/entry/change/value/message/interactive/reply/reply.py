@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -17,7 +17,7 @@ class Reply:
     Title of a selected button / list item.
     """
 
-    description: Optional[str] = None
+    description: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Description of the selected row (only for list items).
     """

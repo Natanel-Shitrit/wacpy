@@ -54,68 +54,68 @@ class Message:
     The time when the customer sent the message to the business.
     """
 
-    identity: Optional[Identity] = None
+    identity: Optional[Identity] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     A webhook is triggered when a customer's phone number or profile information has been updated.
     """
 
-    errors: Optional[List[Error]] = None
+    errors: Optional[List[Error]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     The message that a business received from a customer is not a supported type.
     """
 
-    image: Optional[Image] = None
+    image: Optional[Image] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When messages type is set to image, this object is included in the messages object.
     """
 
-    video: Optional[Video] = None
+    video: Optional[Video] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When messages type is set to video, this object is included in messages object.
     """
 
-    audio: Optional[Audio] = None
+    audio: Optional[Audio] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When the messages type is set to audio, including voice messages, this object is included in the messages object.
     """
 
-    button: Optional[Button] = None
+    button: Optional[Button] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When the messages type field is set to button, this object is included in the messages object.
     """
 
-    context: Optional[Context] = None
+    context: Optional[Context] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When the messages type field is set to button, this object is included in the messages object.
     The context for a message that was forwarded or in an inbound reply from the customer.
     """
 
-    document: Optional[Document] = None
+    document: Optional[Document] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When messages type is set to document, this object is included in the messages object.
     """
 
-    interactive: Optional[Interactive] = None
+    interactive: Optional[Interactive] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When a customer selected a button or list reply, this object is included in the messages object.
     """
 
-    referral: Optional[Referral] = None
+    referral: Optional[Referral] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     A customer clicked an ad that redirects them to WhatsApp, this object is included in the messages object.
     """
 
-    sticker: Optional[Sticker] = None
+    sticker: Optional[Sticker] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When messages type is set to sticker, this object is included in the messages object.
     """
 
-    system: Optional[System] = None
+    system: Optional[System] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When messages type is set to system, a customer has updated their phone number or profile information, this object is included in the messages object.
     """
 
-    text: Optional[Text] = None
+    text: Optional[Text] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When messages type is set to text, the body of text is included in the messages object.
     """

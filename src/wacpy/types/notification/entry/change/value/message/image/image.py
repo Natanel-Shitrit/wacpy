@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -22,7 +22,7 @@ class Image:
     Image hash.
     """
 
-    caption: Optional[str] = None
+    caption: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Caption for the image, if provided.
     """

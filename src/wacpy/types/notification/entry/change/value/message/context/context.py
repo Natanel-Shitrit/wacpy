@@ -17,12 +17,12 @@ class Context:
     The message ID for the sent message for an inbound reply.
     """
 
-    forwarded: Optional[bool] = None
+    forwarded: Optional[bool] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Set to true if the message received by the business has been forwarded.
     """
 
-    frequently_forwarded: Optional[bool] = None
+    frequently_forwarded: Optional[bool] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Set to true if the message received by the business has been forwarded more than 5 times.
     """
