@@ -1,2 +1,2 @@
-# whatsapp-cloud-pyapi
+# wacpy
 WhatsApp Cloud API Wrapper
