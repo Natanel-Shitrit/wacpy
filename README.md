@@ -28,7 +28,7 @@ The Notification object is the object that gets sent to your webhook.
 
 All other sub-objects exist under this 2 types.
 
-## 🖥 Example
+## 🖥 Examples
 * A simple message:
 ```python
 from wacpy.types.message import Message, message # You can also import `message` from `wacpy.types`
