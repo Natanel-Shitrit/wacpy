@@ -1,2 +1,2 @@
 from .conversation import Conversation
-from . import origin
+from .origin import Origin

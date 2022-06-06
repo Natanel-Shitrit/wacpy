@@ -1,2 +1,2 @@
 from .section import Section
-from . import row
+from .row import Row
