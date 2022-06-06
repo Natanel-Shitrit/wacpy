@@ -31,11 +31,11 @@ All other sub-objects exist under this 2 types.
 ## 🖥 Example
 * A simple message:
 ```python
-from wacpy.types.message import Message, text
+from wacpy.types.message import Message, message # You can also import `message` from `wacpy.types`
 
 Message(
     to='{{WHATSAPP_PHONE_NUMBER}}',
-    text=text.Text(
+    text=message.Text(
         body="This is a simple message!"
     )
 )
@@ -44,12 +44,12 @@ Message(
 
 * An Image:
 ```python
-from wacpy.types.message import Message, media
+from wacpy.types import Message, message # You can also import `message` from `wacpy.types`
 
 Message(
     to='{{WHATSAPP_PHONE_NUMBER}}',
     type='image',
-    image=media.Media(
+    image=message.Media(
         link='https://i.imgur.com/Zf5eagv.png',
         caption='Some cute cats'
     )
@@ -60,40 +60,40 @@ Message(
 
 * Interactive Button List
 ```python
-from wacpy.types.message.interactive import Interactive, action, section, body
+from wacpy.types import Message, message # You can also import `message` from `wacpy.types`
 
-wacpy.types.message.Message(
+Message(
     to='{{WHATSAPP_PHONE_NUMBER}}',
     type='interactive',
-    interactive=Interactive(
+    interactive=message.Interactive(
         type='list',
-        action=action.Action(
+        action=message.interactive.Action(
             button='List',
             sections=[
-                section.Section(
+                message.interactive.Section(
                     title='First Section',
                     rows=[
-                        section.row.Row(
+                        message.interactive.section.Row(
                             id='first_row',
                             title='First Row',
                             description='This is the first row description',
                         ),
-                        section.row.Row(
+                        message.interactive.section.Row(
                             id='second_row',
                             title='Second Row',
                             description='This is the second row description',
                         )
                     ]
                 ),
-                section.Section(
+                message.interactive.Section(
                     title='Second Section',
                     rows=[
-                        section.row.Row(
+                        message.interactive.section.Row(
                             id='first_row',
                             title='First Row',
                             description='This is the first row description',
                         ),
-                        section.row.Row(
+                        message.interactive.section.Row(
                             id='second_row',
                             title='Second Row',
                             description='This is the second row description',
@@ -102,7 +102,7 @@ wacpy.types.message.Message(
                 )
             ]
         ),
-        body=body.Body('This is the body text')
+        body=message.interactive.Body('This is the body text')
     )
 )
 ```
