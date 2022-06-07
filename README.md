@@ -70,30 +70,30 @@ Message(
         action=message.interactive.Action(
             button='List',
             sections=[
-                message.interactive.Section(
+                message.interactive.action.Section(
                     title='First Section',
                     rows=[
-                        message.interactive.section.Row(
+                        message.interactive.action.section.Row(
                             id='first_row',
                             title='First Row',
                             description='This is the first row description',
                         ),
-                        message.interactive.section.Row(
+                        message.interactive.action.section.Row(
                             id='second_row',
                             title='Second Row',
                             description='This is the second row description',
                         )
                     ]
                 ),
-                message.interactive.Section(
+                message.interactive.action.Section(
                     title='Second Section',
                     rows=[
-                        message.interactive.section.Row(
+                        message.interactive.action.section.Row(
                             id='first_row',
                             title='First Row',
                             description='This is the first row description',
                         ),
-                        message.interactive.section.Row(
+                        message.interactive.action.section.Row(
                             id='second_row',
                             title='Second Row',
                             description='This is the second row description',
