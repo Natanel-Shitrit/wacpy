@@ -1,5 +1,5 @@
 from .button import Button
-from ..section import Section
+from .section import Section
 
 from dataclasses_json import config, dataclass_json
 from dataclasses import dataclass, field
