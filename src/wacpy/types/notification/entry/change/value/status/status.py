@@ -1,5 +1,6 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from typing import List, Optional
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 
 from .billing import Billing
 from .conversation import Conversation
@@ -8,19 +9,9 @@ from .conversation import Conversation
 @dataclass
 class Status:
 
-    conversation: Conversation
-    """
-    Information about the conversation.
-    """
-    
     id: str
     """
     The ID for the message that the business that is subscribed to the webhooks sent to a customer.
-    """
-
-    pricing: Billing
-    """
-    An object containing billing information.
     """
 
     recipient_id: str
@@ -39,3 +30,14 @@ class Status:
     """
     Date for the status message.
     """
+
+    pricing: Optional[Billing] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    An object containing billing information.
+    """
+
+    conversation: Optional[Conversation] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    Information about the conversation.
+    """
+
