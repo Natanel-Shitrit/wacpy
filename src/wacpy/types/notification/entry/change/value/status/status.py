@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 
 from .billing import Billing
 from .conversation import Conversation
+from ..error import Error
 
 @dataclass_json
 @dataclass
@@ -41,3 +42,7 @@ class Status:
     Information about the conversation.
     """
 
+    errors: Optional[List[Error]] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    An array of error objects.
+    """
