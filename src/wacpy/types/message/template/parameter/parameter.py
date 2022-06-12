@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -23,7 +23,7 @@ class Parameter:
     For text-based templates, the only supported parameter types are text, currency, date_time.
     """
 
-    text: Optional[str]
+    text: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=text.
 

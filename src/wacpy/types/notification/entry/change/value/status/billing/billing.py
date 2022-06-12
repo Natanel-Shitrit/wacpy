@@ -1,5 +1,5 @@
-from dataclasses_json import dataclass_json
-from dataclasses import dataclass
+from dataclasses_json import config, dataclass_json
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -23,13 +23,13 @@ class Billing:
     Type of pricing model used by the business. Current supported value is CBP.
     """
 
-    billable: Optional[bool]
+    billable: Optional[bool] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Deprecated.
     Visit the WhatsApp Changelog for more information.
 
     Indicates if the given message or conversation is billable.
     Default is true for all conversations, including those inside your free tier limit, except those initiated from free entry points.
-    Free entry point conversatsion are not billable, false.
+    Free entry point conversation are not billable, false.
     You will not be charged for free tier limit conversations, but they are considered billable and will be reflected on your invoice.
     """
