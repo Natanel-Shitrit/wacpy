@@ -32,9 +32,10 @@ class Interactive:
     Action you want the user to perform after reading the message.
     """
 
-    body: Body
+    body: Optional[Body] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Required.
+    Optional for type product.
+    Required for other message types.
 
     The body of the message.
     Emojis and markdown are supported.
