@@ -103,12 +103,14 @@ class Message:
     """
     Required when type=sticker.
 
-    A media object containing a sticker. Currently, we support inbound both and outbound stickers:
+    A media object containing a sticker.
 
-        • For outbound, we only support static third-party stickers.
-        • For inbound, we support all types of stickers.
+    Static and animated third-party outbound stickers are supported in addition to all types of inbound stickers.
+    A static sticker needs to be 512x512 pixels and cannot exceed 100 KB.
+    An animated sticker must be 512x512 pixels and cannot exceed 500 KB.
 
-    The sticker needs to be 512x512 pixels and the file’s size needs to be less than 100 KB.
+    We support static third-party outbound stickers and all types of inbound stickers.
+    The sticker needs to be 512x512 pixels and the file size needs to be less than 100 KB.
     """
 
     video: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
