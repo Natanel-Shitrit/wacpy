@@ -71,6 +71,13 @@ class Message:
     An object containing the ID of a previous message you are replying to.
     """
 
+    status: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    A message's status.
+
+    You can use this field to mark a message as read.
+    """
+
     audio: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=audio.
