@@ -9,7 +9,7 @@ class Media:
     
     id: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Required when type is audio, document, or image and you are not using a link.
+    Required when type is audio, document, image, sticker, or video and you are not using a link.
 
     The media object ID.
     
@@ -18,7 +18,7 @@ class Media:
 
     link: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """       
-    Required when type is audio, document, image, video, and sticker and you are not using an uploaded media ID.
+    Required when type is audio, document, image, sticker, or video and you are not using an uploaded media ID.
 
     The protocol and URL of the media to be sent.
     Use only with HTTP/HTTPS URLs.
@@ -30,9 +30,9 @@ class Media:
     """
     Optional.
 
-    Describes the specified document or image media.
+    Describes the specified image or video media.
 
-    Do not use with audio media.
+    Do not use with audio, document, or sticker media.
     """
 
     filename: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
@@ -42,4 +42,6 @@ class Media:
     Describes the filename for the specific document.
     
     Use only with document media.
+    
+    The extension of the filename will specify what format the document is displayed as in WhatsApp.
     """
