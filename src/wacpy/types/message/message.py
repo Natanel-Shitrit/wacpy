@@ -1,4 +1,5 @@
 from .contact import Contact
+from .context import Context
 from .interactive import Interactive
 from .location import Location
 from .media import Media
@@ -61,6 +62,13 @@ class Message:
         • sticker: for sticker messages.
         • template: for template messages. Text and media (images and documents) message templates are supported.
         • text: for text messages.
+    """
+
+    context: Optional[Context] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    Required if replying to any message in the conversation.
+
+    An object containing the ID of a previous message you are replying to.
     """
 
     audio: Optional[Media] = field(default=None, metadata=config(exclude=lambda f: f is None))
