@@ -55,10 +55,12 @@ class Interactive:
 
     header: Optional[Header] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Optional.
+    Required for type product_list.
+    Optional for other types.
 
     Header content displayed on top of a message.
-    
+    You cannot set a header if your interactive object is of product type.
+
     See header object for more information.
     """
 
