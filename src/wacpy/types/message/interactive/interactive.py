@@ -21,6 +21,8 @@ class Interactive:
     Supported Options:
         • list: Use it for List Messages.
         • button: Use it for Reply Buttons.
+        • product: Use for Single Product Messages.
+        • product_list: Use for Multi-Product Messages.
     """
 
     action: Action
