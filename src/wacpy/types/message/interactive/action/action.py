@@ -70,7 +70,7 @@ class Action:
 
     sections: Optional[List[Section]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Required for List Messages.
+    Required for List Messages and Multi-Product Messages.
 
     Array of section objects.
     There is a minimum of 1 and maximum of 10.
