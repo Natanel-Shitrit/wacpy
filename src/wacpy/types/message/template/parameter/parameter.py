@@ -12,7 +12,7 @@ class Parameter:
 
     Describes the parameter type.
 
-    Supported Options::
+    Supported Options:
         • text
         • currency
         • date_time

@@ -46,9 +46,31 @@ class Action:
     You cannot have leading or trailing spaces when setting the ID.
     """
 
+    catalog_id: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    Required for Single Product Messages and Multi-Product Messages.
+
+    Unique identifier of the Facebook catalog linked to your WhatsApp Business Account.
+    
+    This ID can be retrieved via the Meta Commerce Manager. (https://business.facebook.com/commerce/)
+    """
+
+    product_retailer_id: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    Required for Single Product Messages and Multi-Product Messages.
+
+    Unique identifier of the product in a catalog.
+
+    To get this ID go to Meta Commerce Manager (https://business.facebook.com/commerce/) and select your Meta Business account.
+    You will see a list of shops connected to your account.
+    Click the shop you want to use.
+    On the left-side panel, click Catalog > Items, and find the item you want to mention.
+    The ID for that item is displayed under the item's name.
+    """
+
     sections: Optional[List[Section]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Required for List Messages.
+    Required for List Messages and Multi-Product Messages.
 
     Array of section objects.
     There is a minimum of 1 and maximum of 10.

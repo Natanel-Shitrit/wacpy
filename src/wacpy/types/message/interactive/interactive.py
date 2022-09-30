@@ -21,6 +21,8 @@ class Interactive:
     Supported Options:
         • list: Use it for List Messages.
         • button: Use it for Reply Buttons.
+        • product: Use for Single Product Messages.
+        • product_list: Use for Multi-Product Messages.
     """
 
     action: Action
@@ -30,9 +32,10 @@ class Interactive:
     Action you want the user to perform after reading the message.
     """
 
-    body: Body
+    body: Optional[Body] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Required.
+    Optional for type product.
+    Required for other message types.
 
     The body of the message.
     Emojis and markdown are supported.
@@ -52,10 +55,12 @@ class Interactive:
 
     header: Optional[Header] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
-    Optional.
+    Required for type product_list.
+    Optional for other types.
 
     Header content displayed on top of a message.
-    
+    You cannot set a header if your interactive object is of product type.
+
     See header object for more information.
     """
 

@@ -10,10 +10,11 @@ class Language:
     """    	
     Required.
 
-    Default (and only supported option): deterministic
     The language policy the message should follow.
+    The only supported option is deterministic.
     
-    See Language Policy Options for more information.
+    See Language Policy Options.
+    https://developers.facebook.com/docs/whatsapp/api/messages/message-templates#language-policy-options
     """
 
     code: str
@@ -23,5 +24,6 @@ class Language:
     The code of the language or locale to use.
     Accepts both language and language_locale formats (e.g., en and en_US).
 
-    See Supported Languages for all codes.
+    For all codes, see Supported Languages.
+    https://developers.facebook.com/docs/whatsapp/api/messages/message-templates#supported-languages
     """
