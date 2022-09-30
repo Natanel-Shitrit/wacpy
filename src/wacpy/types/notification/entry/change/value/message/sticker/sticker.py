@@ -20,3 +20,8 @@ class Sticker:
     """
     ID for the sticker.
     """
+    
+    animated: bool
+    """
+    Set to true if the sticker is animated; false otherwise.
+    """
