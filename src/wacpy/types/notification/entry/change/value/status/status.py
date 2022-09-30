@@ -9,6 +9,17 @@ from ..error import Error
 @dataclass_json
 @dataclass
 class Status:
+    """
+    For a status to be read, it must have been delivered.
+
+    In some scenarios, such as when a user is in the chat screen and a message arrives,
+    the message is delivered and read almost simultaneously.
+
+    In this or other similar scenarios, the delivered notification will not be sent back,
+    as it is implied that a message has been delivered if it has been read.
+    
+    The reason for this behavior is internal optimization.
+    """
 
     id: str
     """
