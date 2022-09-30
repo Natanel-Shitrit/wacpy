@@ -11,6 +11,7 @@ from .button import Button
 from .context import Context
 from .document import Document
 from .interactive import Interactive
+from .order import Order
 from .referral import Referral
 from .sticker import Sticker
 from .system import System
@@ -43,6 +44,7 @@ class Message:
         • text
         • image
         • interactive
+        • order
         • sticker
         • system - for customer number change messages
         • unknown
@@ -98,6 +100,11 @@ class Message:
     interactive: Optional[Interactive] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     When a customer selected a button or list reply, this object is included in the messages object.
+    """
+
+    order: Optional[Order] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    Included in the messages object when a customer has placed an order.
     """
 
     referral: Optional[Referral] = field(default=None, metadata=config(exclude=lambda f: f is None))

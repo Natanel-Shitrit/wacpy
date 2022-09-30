@@ -2,6 +2,8 @@ from dataclasses_json import dataclass_json, config
 from dataclasses import dataclass, field
 from typing import Optional
 
+from .product_referral import ProductReferral
+
 
 @dataclass_json
 @dataclass
@@ -25,4 +27,11 @@ class Context:
     frequently_forwarded: Optional[bool] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Set to true if the message received by the business has been forwarded more than 5 times.
+    """
+
+    referred_product: Optional[ProductReferral] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    """
+    Required for Product Enquiry Messages.
+    
+    The product the user is requesting information about.
     """

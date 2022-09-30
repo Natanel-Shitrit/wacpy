@@ -11,3 +11,10 @@ class Change:
     """
     Value of the change.
     """
+
+    field: str
+    """
+    The type of the notification.
+
+    The only option for this API is `messages`.
+    """
