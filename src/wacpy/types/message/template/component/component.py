@@ -1,8 +1,9 @@
 from .button_parameter import ButtonParameter
+from .parameter import Parameter
 
 from dataclasses_json import config, dataclass_json
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import Optional, Union, List
 
 
 @dataclass_json
@@ -40,7 +41,7 @@ class Component:
             the predefined prefix URL in the template.
     """
 
-    parameters: Optional[List[ButtonParameter]] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    parameters: Optional[List[Union[Parameter, ButtonParameter]]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Required when type=button.
 
