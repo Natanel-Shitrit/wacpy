@@ -7,9 +7,12 @@ from .error import Error
 from .identity import Identity
 from .image import Image
 from .interactive import Interactive
+from .order import Order
 from .referral import Referral
 from .sticker import Sticker
 from .system import System
 from .text import Text
 from .video import Video
+from . import context
 from . import interactive
+from . import order
