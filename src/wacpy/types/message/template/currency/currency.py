@@ -20,7 +20,7 @@ class Currency:
     Currency code as defined in ISO 4217.
     """
 
-    amount_1000: str
+    amount_1000: int
     """    	
     Required.
 
