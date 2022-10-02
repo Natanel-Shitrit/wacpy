@@ -5,7 +5,7 @@ from typing import Optional
 
 @dataclass_json
 @dataclass
-class Button:
+class ButtonParameter:
     
     type: str
     """
