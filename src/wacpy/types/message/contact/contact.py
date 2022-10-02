@@ -20,7 +20,7 @@ class Contact:
     Full contact name — see name object.
     """
 
-    adresses: Optional[List[Address]] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    addresses: Optional[List[Address]] = field(default=None, metadata=config(exclude=lambda f: f is None))
     """
     Optional.
 
