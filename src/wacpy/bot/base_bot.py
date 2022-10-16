@@ -1,16 +1,163 @@
+import abc
+import functools
 import http.client
 import http.server
-import urllib.parse
 import json
-from abc import ABCMeta, abstractmethod
+import urllib.parse
 from typing import Any, Dict
 
-from wacpy.types.notification.notification import Notification
+from .. import WA_CLOUD_API_COMPATIBILITY
+from ..types import Message, Notification
 
-from .. import WA_CLOUD_API_COMPATIBILITY, types
+
+class BasicWhatsAppRequestHandler(http.server.BaseHTTPRequestHandler):
+    '''
+    The basic request handler for BaseWhatsAppBot.
+
+    The request handler of BaseWhatsAppBot should handle
+    the following incoming requests according to the official documentations:
+
+    1. GET requests will always be used for webhook verification.
+        https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests
+
+    2. POST requests will always be used for notifications.
+        https://developers.facebook.com/docs/graph-api/webhooks/getting-started#event-notifications
+    '''
+
+    def __init__(self, bot, *args, **kwargs):
+        # Bot instance to call on notification.
+        self.__bot: BaseWhatsAppBot = bot
+        # Extra parameters:
+        self.__verify_token = kwargs.pop('verify_token')
+        self.__webhook_path = kwargs.pop('webhook_path')
+        # Continue initialization...
+        super().__init__(*args, **kwargs)
+
+    def do_GET(self):
+        '''
+        GET requests are used for webhook verifications.
+        '''
+        response = ''
+        try:
+            # When verification request is sent, it's checked in the internal function,
+            # If the internal function didn't raise any 'InvalidVerifyRequest',
+            # then return an 200 "OK" response with the challenge content.
+            response = self._verify_request_challenge()
+            self.send_response(http.client.OK)
+        except Exception as e:
+            # If exception is raised, return 400 "Not Found" response.
+            self.send_error(http.client.NOT_FOUND)
+
+            # If the exception is not 'InvalidVerifyRequest', re-raise it.
+            # Only 'InvalidVerifyRequest' exceptions shouldn't be re-raised.
+            if e is not InvalidVerifyRequest:
+                raise e
+        finally:
+            # End headers to complete request.
+            self.end_headers()
+            self.wfile.write(response.encode())
+
+    def do_POST(self):
+        '''
+        POST requests are used to receive notification. 
+        '''
+        # TODO: Validate payload (https://developers.facebook.com/docs/graph-api/webhooks/getting-started#event-notifications)
+
+        try:
+            # Get data and send it to the internal function that handles notifications.
+            self.__bot._handle_notification(
+                payload=self._get_post_data()
+            )
+        except Exception as e:
+            # TODO:
+            #   1. Implement a callback for failed notifications (?)
+            #       A good idea would be to store the information about the failed notification with a random identifier,
+            #       and send the contact a template message containing the identifier to send it to the support team. 
+            #   2. Store failed notifications to analyze them later (?)
+
+            # For now, print to console when an exception is raised.
+            print(f'[!] Exception raised: {e}')
+
+            # TODO: After calling the failed notification callback,
+            #       this should re-raise the exception if it's not a parsing exception.
+        finally:
+            # TODO: Define an exception for parsing errors, when it occurs,
+            #       print a message about the process of reporting the error to repository GitHub issues.
+            #       (It's probably a good idea to ask for the notification payload, after manually removing sensitive information)
+
+            # A 200 'OK' response will always be sent back.
+            # if not, Facebook's Graph-API will resend the notification immediately,
+            # then try a few more times with decreasing frequency over the next 36 hours.
+            #
+            # This avoids the event of deduplication of notifications,
+            # which will (probably) result with the same exception, depends on the cause of the exception.
+            self.send_response(http.client.OK)
+            self.end_headers()
+
+    def _get_post_data(self) -> bytes:
+        # Read the data from the read-file.
+        # The length of the data is provided in the 'Content-Length' header.
+        return self.rfile.read(int(self.headers['Content-Length']))
+
+    def _verify_request_challenge(self) -> str:
+        '''
+        Verifies the incoming verification request.
+
+        Returns the challenge to reply on success.
+
+        Raises 'InvalidVerifyRequest' on invalid request.
+
+        According to:
+        https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests
+        '''
+
+        # Make sure the requested path is the verify endpoint.
+        if (parsed_url := urllib.parse.urlparse(self.path)).path != self.__webhook_path:
+            raise InvalidVerifyRequest(
+                f'Requested path is not verify endpoint. (requested path: "{parsed_url.path}", webhook path: "{self.__webhook_path}" )')
+
+        # Make sure each query parameter has only one value.
+        try:
+            query_components = self._parse_query_string(parsed_url.query)
+        except ValueError:
+            # raised in 'urllib.parse.parse_qs()' when there are multiple values for a query parameter.
+            raise InvalidVerifyRequest(
+                f'A query parameter has more than one value. (query parameters: {parsed_url.query})')
+
+        # Check that all required query components are present.
+        if not {'hub.mode', 'hub.challenge', 'hub.verify_token'} <= {*(query_components)}:
+            raise InvalidVerifyRequest(
+                f'Not all required parameters are present. (parameters: "{set(query_components)}")')
+
+        # 'hub.mode' should always be set 'subscribe'.
+        if query_components['hub.mode'] != 'subscribe':
+            raise InvalidVerifyRequest(
+                f'The "hub.mode" parameter is not set to "subscribe". (hub.mode: "{query_components["hub.mode"]}")')
+
+        # the 'hub.verify_token' must be equal to the verify token.
+        if query_components['hub.verify_token'] != self.__verify_token:
+            raise InvalidVerifyRequest(
+                f'The "hub.verify_token" is not equal to the secret verify token. (hub.verify_token: "{query_components["hub.verify_token"]}")')
+
+        # Send a response containing the challenge.
+        return query_components['hub.challenge']
+
+    def _parse_query_string(self, query) -> Dict[str, str]:
+        # urllib.parse.parse_qs() returns a dictionary of query parameters paired with a list of values.
+        # this function makes sure there is only 1 value for each parameter and returns the dictionary with
+        # the same keys, and values as the data itself and not as a list.
+        parsed_result = {}
+
+        for name, value in urllib.parse.parse_qsl(query):
+            if name in parsed_result:
+                raise ValueError('A query parameter has more than one value.')
+
+            parsed_result[name] = value
+
+        return parsed_result
 
 
-class BaseWhatsAppBot(http.server.BaseHTTPRequestHandler, metaclass=ABCMeta):
+class BaseWhatsAppBot(abc.ABC):
     '''
     Base WhatsApp bot.
 
@@ -21,28 +168,27 @@ class BaseWhatsAppBot(http.server.BaseHTTPRequestHandler, metaclass=ABCMeta):
 
     GRAPH_API_HOST = 'graph.facebook.com'
 
-    def __init__(self, phone_id, access_token, verify_token, verify_endpoint='/', *args, **kwargs):
-        # Connection to facebook graph api, to send messages.
-        self.__graph_api = http.client.HTTPSConnection(self.GRAPH_API_HOST)
-
-        # Parameters.
+    def __init__(self, phone_id, access_token):
+        # Initializing a bot requires only the parameters that are required for sending a message.
+        # To receive messages, see 'activate_webhook' method.
         self.__phone_id = phone_id
         self.__access_token = access_token
-        self.__verify_token = verify_token
-        self.__verify_endpoint = verify_endpoint
 
-        # Initialize HTTP request handler.
-        super().__init__(*args, **kwargs)
-
-    def send_message(self, message: types.Message) -> Dict[str, Any]:
-        self.__graph_api.request(
+    def send_message(self, message: Message) -> Dict[str, Any]:
+        # Use context manager to release in the end of the block.
+        (connection := http.client.HTTPSConnection(self.GRAPH_API_HOST)).request(
             'POST',
-            url=f'/{self.__phone_id}/messages',
-            body=message.to_dict(),  # type: ignore
-            headers=self.__authorization | {'Content-Type': 'application/json'}
+            url=f'/v{WA_CLOUD_API_COMPATIBILITY}/{self.__phone_id}/messages',
+            body=message.to_json(),
+            headers=self.__authorization | {
+                # The sent content is JSON.
+                'Content-Type': 'application/json',
+                # Signal that the connection will be closed after completion of the response.
+                'Connection': 'close'
+            }
         )
-
-        match (response := self.__graph_api.getresponse()).status:
+        # Decide what to do according to the response status.
+        match (response := connection.getresponse()).status:
             case http.client.OK:
                 # Parse the response as json if the return code is 200 OK.
                 return json.loads(response.read().decode())
@@ -60,58 +206,25 @@ class BaseWhatsAppBot(http.server.BaseHTTPRequestHandler, metaclass=ABCMeta):
                 raise BaseWhatsAppBotError(
                     f'Unexpected response code {response.status}.')
 
-    '''
-    HTTP server methods handlers.
-    '''
+    def activate_webhook(self, bind_address, port, request_handler=BasicWhatsAppRequestHandler, **kwargs):
+        # Extra request handler parameters are passed via kwargs.
+        # The default request handler is 'BasicWhatsAppRequestHandler'.
+        # See 'BasicWhatsAppRequestHandler.__init__()' for required parameters.
+        request_handler = functools.partial(
+            request_handler,
+            self,
+            **kwargs
+        )
 
-    def do_GET(self):
-        '''
-        GET requests are used for webhook verifications.
-        '''
-        try:
-            # When verification request is sent, it's checked in the internal function,
-            # If the internal function didn't raise any 'InvalidVerifyRequest',
-            # then return an 200 "OK" response with the challenge content.
-            self.send_response(
-                http.client.OK,
-                self.__get_verify_request_challenge()
-            )
-        except InvalidVerifyRequest:
-            # If 'InvalidVerifyRequest' is raised, return 400 "Not Found" response.
-            self.send_error(http.client.NOT_FOUND)
-
-    def do_POST(self):
-        '''
-        POST requests are used to receive notification. 
-        '''
-        try:
-            # Get data and send it to the internal function that handles notifications.
-            content_length = int(self.headers['Content-Length'])
-            data = self.rfile.read(content_length)
-            self.__handle_notification(payload=data)
-        except:
-            # TODO:
-            #   1. Implement a callback for failed notifications (?)
-            #   2. Store failed notifications to analyze them later (?)
-            pass
-
-        # TODO: Define an exception for parsing errors, when it occurs,
-        #       print a message about the process of reporting the error to repository GitHub issues.
-        #       (It's probably a good idea to ask for the notification payload, after manually removing sensitive information)
-
-        # A 200 'OK' response will always be sent back.
-        # if not, Facebook's Graph-API will resend the notification immediately,
-        # then try a few more times with decreasing frequency over the next 36 hours.
-        #
-        # This avoids the event of deduplication of notifications,
-        # which will (probably) result with the same exception, depends on the cause of the exception.
-        self.send_response(http.client.OK)
+        # Initialize http server and start it immediately.
+        with http.server.ThreadingHTTPServer((bind_address, port), request_handler) as httpd:
+            httpd.serve_forever()
 
     '''
     Callbacks
     '''
-    @abstractmethod
-    def on_notification(self, notification: types.Notification):
+    @abc.abstractmethod
+    def on_notification(self, notification: Notification):
         pass
 
     '''
@@ -125,40 +238,10 @@ class BaseWhatsAppBot(http.server.BaseHTTPRequestHandler, metaclass=ABCMeta):
     Internal functions
     '''
 
-    def __get_verify_request_challenge(self) -> str:
-        '''
-        Graph-API endpoint for Verification Requests.
-        https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests
-        '''
-
-        # Make sure the requested path is the verify endpoint.
-        if (parsed_url := urllib.parse.urlparse(self.path)).path != self.__verify_endpoint:
-            raise InvalidVerifyRequest(
-                f'Requested path is not verify endpoint. (path: "{parsed_url.path}")')
-
-        # Check that all required query components are present.
-        if not {'hub.mode', 'hub.challenge', 'hub.verify_token'} <= {*(query_components := urllib.parse.parse_qs(parsed_url.query))}:
-            raise InvalidVerifyRequest(
-                f'Not all required parameters are present. (parameters: "{set(query_components)}")')
-
-        # 'hub.mode' should always be set 'subscribe'.
-        if query_components['hub.mode'] != 'subscribe':
-            raise InvalidVerifyRequest(
-                f'The "hub.mode" parameter is not set to "subscribe". (hub.mode: "{query_components["hub.mode"]}")')
-
-        # the 'hub.verify_token' must be equal to the verify token.
-        if query_components['hub.verify_token'] != self.__verify_token:
-            raise InvalidVerifyRequest(
-                f'The "hub.verify_token" is not equal to the secret verify token. (hub.verify_token: "{query_components["hub.verify_token"]}")')
-
-        # Send a response containing the challenge.
-        return query_components['hub.challenge'][0]
-
-    def __handle_notification(self, payload):
-        # TODO: Handle notifications, Call 'on_notification' with parsed notification.
-        # TODO: Validate payload (https://developers.facebook.com/docs/graph-api/webhooks/getting-started#event-notifications)
+    def _handle_notification(self, payload):
+        # This method could be overridden to allow modification or usage of the raw payload.
         self.on_notification(
-            notification=Notification.from_json(payload)  # type: ignore
+            notification=Notification.from_json(payload)
         )
 
 
