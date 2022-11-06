@@ -45,6 +45,8 @@ if __name__ == '__main__':
     parser.add_argument('access_token')
     parser.add_argument('verify_token')
     parser.add_argument('webhook_path')
+    parser.add_argument('--app_secret', default=None,
+                        help='app secret used for verifying payloads')
     parser.add_argument('--bind', '-b', metavar='ADDRESS', default='',
                         help='specify alternate bind address '
                              '(default: all interfaces)')
@@ -59,7 +61,8 @@ if __name__ == '__main__':
     ).activate_webhook(
         bind_address=args.bind,
         port=args.port,
-        # request handler parameters: 
+        # request handler parameters:
         verify_token=args.verify_token,
-        webhook_path=args.webhook_path
+        webhook_path=args.webhook_path,
+        app_secret=args.app_secret
     )
